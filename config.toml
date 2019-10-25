@@ -1,0 +1,8 @@
+Listen = ":8080"
+
+[URL]
+Countries = "https://restcountries.eu/rest/v2/name/"
+Currencies = "https://www.cbr-xml-daily.ru/daily_json.js"
+
+[Http]
+Timeout = "1s"
