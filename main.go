@@ -44,7 +44,10 @@ type Country struct {
 
 // NewWeb - создаёт новый обработчик запросов
 func NewWeb(cfg config) Web {
-	return Web{cfg: cfg, client: http.Client{Timeout: cfg.Timeout * time.Millisecond}}
+	return Web{
+		cfg:    cfg,
+		client: http.Client{Timeout: cfg.Timeout * time.Millisecond},
+	}
 }
 
 // main - точка входа
@@ -76,7 +79,7 @@ func (w *Web) getCountry(url string) (country string, err error) {
 	pos := strings.LastIndexByte(url, '/')
 
 	if pos == -1 || pos == len(url) {
-		return country, errors.New(`Param "country" isn't valid`)
+		return country, errors.New(`"Country" is empty`)
 	}
 
 	return url[pos+1:], nil
@@ -123,7 +126,7 @@ func (w *Web) Handle(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	body, _ := xml.Marshal(response[0])
+	body, _ := xml.Marshal(Response{Code: 0, Data: response[0]})
 
 	rw.WriteHeader(http.StatusOK)
 	_, _ = rw.Write(body)
